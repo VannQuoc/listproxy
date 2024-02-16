@@ -15,57 +15,10 @@ def get_proxy(web):
 def main():
     while True:
         with open('http.txt', 'w') as file:
-            file.write('')
-        with open('list.txt', 'r') as file:
-            urls = file.readlines()
-        for url in urls:
-            url = url.strip()
-            proxy = get_proxy(url)
-            if proxy:
-                    with open('http.txt', 'a') as http_file:
-                        http_file.write(f'{proxy}\n')
-        with open('proxy.txt', 'w') as file:
-            file.write('')
-        with open('http.txt', "r") as input_file:
-            proxies = input_file.read().splitlines()
-        for proxy in proxies:
-            if not proxy.strip():
-                continue
-            try:
-                response = requests.get("http://google.com", proxies={"http": proxy, "https": proxy}, timeout=2)
-                if response.status_code == 200:
-                    with open('proxy.txt', 'a') as http_file:
-                        http_file.write(f'{proxy}\n')
-            except requests.RequestException:
-                pass
-        with open('proxy.txt', 'r') as input_file:
-            proxy = input_file.read()
-        with open('live.txt', 'w') as output_file:
-            output_file.write(proxy)
-        time.sleep(300)
-#FLASK
-@app.route('/proxy', methods=['GET'])
-def get_proxy_route():
-    try:
-        file_path = 'live.txt'
+            file.write('http.txt')
         with open(file_path, 'r') as file:
             file_content = file.read()
         return Response(file_content, content_type='text/plain')
-    except Exception as e:
-        return str(e)
-@app.route('/new', methods=['GET'])
-def proxy_moi():
-    file_path = 'proxy.txt'
-    chunk_size = 1024 * 100
-    try:
-        with open(file_path, 'rb') as file:
-            def generate():
-                while True:
-                    chunk = file.read(chunk_size)
-                    if not chunk:
-                        break
-                    yield chunk
-            return Response(generate(), content_type='text/plain')
     except Exception as e:
         return str(e)
 @app.route('/only', methods=['GET'])
@@ -79,17 +32,11 @@ def mot_proxy():
         return str(e)
 @app.route('/nocheck', methods=['GET'])
 def proxy_chua_check():
-    file_path = 'http.txt'
-    chunk_size = 1024 * 100
     try:
-        with open(file_path, 'rb') as file:
-            def generate():
-                while True:
-                    chunk = file.read(chunk_size)
-                    if not chunk:
-                        break
-                    yield chunk
-            return Response(generate(), content_type='text/plain')
+        file_path = 'http.txt'
+        with open(file_path, 'r') as file:
+            file_content = file.read()
+        return Response(file_content, content_type='text/plain')
     except Exception as e:
         return str(e)
 @app.route('/', methods=['GET'])
