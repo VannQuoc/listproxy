@@ -43,6 +43,25 @@ def main():
         with open('live.txt', 'w') as output_file:
             output_file.write(proxy)
         time.sleep(300)
+#FLASK
+@app.route('/proxy', methods=['GET'])
+def get_proxy_route():
+    try:
+        file_path = 'live.txt'
+        with open(file_path, 'r') as file:
+            file_content = file.read()
+        return Response(file_content, content_type='text/plain')
+    except Exception as e:
+        return str(e)
+@app.route('/new', methods=['GET'])
+def proxy_moi():
+    try:
+        file_path = 'proxy.txt'
+        with open(file_path, 'r') as file:
+            file_content = file.read()
+        return Response(file_content, content_type='text/plain')
+    except Exception as e:
+        return str(e)
 @app.route('/only', methods=['GET'])
 def mot_proxy():
     try:
