@@ -1,5 +1,4 @@
 from flask import Flask, send_file, Response
-from concurrent.futures import ThreadPoolExecutor
 import threading
 import time
 import requests
@@ -90,7 +89,8 @@ def index():
     except Exception as e:
         return str(e)
 
+flask_thread = threading.Thread(target=app.run(host='0.0.0.0'))
+main_thread = threading.Thread(target=main)
 if __name__ == '__main__':
-    with ThreadPoolExecutor(max_workers=2) as executor:
-        executor.submit(app.run(host='0.0.0.0'))
-        executor.submit(main)
+    flask_thread.start()
+    main_thread.start()
