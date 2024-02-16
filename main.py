@@ -14,6 +14,7 @@ def get_proxy(web):
         return None
 def main():
     while True:
+    try:
         with open('http.txt', 'w') as file:
             file.write('http.txt')
         with open(file_path, 'r') as file:
