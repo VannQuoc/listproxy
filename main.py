@@ -89,7 +89,7 @@ def index():
     except Exception as e:
         return str(e)
 
-flask_thread = threading.Thread(target=app.run, kwargs={'debug': False})
+flask_thread = threading.Thread(target=app.run(host='0.0.0.0'))
 main_thread = threading.Thread(target=main)
 if __name__ == '__main__':
     flask_thread.start()
