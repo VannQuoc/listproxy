@@ -14,14 +14,35 @@ def get_proxy(web):
         return None
 def main():
     while True:
-    try:
         with open('http.txt', 'w') as file:
-            file.write('http.txt')
-        with open(file_path, 'r') as file:
-            file_content = file.read()
-        return Response(file_content, content_type='text/plain')
-    except Exception as e:
-        return str(e)
+            file.write('')
+        with open('list.txt', 'r') as file:
+            urls = file.readlines()
+        for url in urls:
+            url = url.strip()
+            proxy = get_proxy(url)
+            if proxy:
+                    with open('http.txt', 'a') as http_file:
+                        http_file.write(f'{proxy}\n')
+        with open('proxy.txt', 'w') as file:
+            file.write('')
+        with open('http.txt', "r") as input_file:
+            proxies = input_file.read().splitlines()
+        for proxy in proxies:
+            if not proxy.strip():
+                continue
+            try:
+                response = requests.get("http://google.com", proxies={"http": proxy, "https": proxy}, timeout=2)
+                if response.status_code == 200:
+                    with open('proxy.txt', 'a') as http_file:
+                        http_file.write(f'{proxy}\n')
+            except requests.RequestException:
+                pass
+        with open('proxy.txt', 'r') as input_file:
+            proxy = input_file.read()
+        with open('live.txt', 'w') as output_file:
+            output_file.write(proxy)
+        time.sleep(300)
 @app.route('/only', methods=['GET'])
 def mot_proxy():
     try:
