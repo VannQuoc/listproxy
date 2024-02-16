@@ -54,11 +54,17 @@ def get_proxy_route():
         return str(e)
 @app.route('/new', methods=['GET'])
 def proxy_moi():
+    file_path = 'proxy.txt'
+    chunk_size = 1024 * 100
     try:
-        file_path = 'proxy.txt'
-        with open(file_path, 'r') as file:
-            file_content = file.read()
-        return Response(file_content, content_type='text/plain')
+        with open(file_path, 'rb') as file:
+            def generate():
+                while True:
+                    chunk = file.read(chunk_size)
+                    if not chunk:
+                        break
+                    yield chunk
+            return Response(generate(), content_type='text/plain')
     except Exception as e:
         return str(e)
 @app.route('/only', methods=['GET'])
@@ -72,11 +78,17 @@ def mot_proxy():
         return str(e)
 @app.route('/nocheck', methods=['GET'])
 def proxy_chua_check():
+    file_path = 'http.txt'
+    chunk_size = 1024 * 100
     try:
-        file_path = 'http.txt'
-        with open(file_path, 'r') as file:
-            file_content = file.read()
-        return Response(file_content, content_type='text/plain')
+        with open(file_path, 'rb') as file:
+            def generate():
+                while True:
+                    chunk = file.read(chunk_size)
+                    if not chunk:
+                        break
+                    yield chunk
+            return Response(generate(), content_type='text/plain')
     except Exception as e:
         return str(e)
 @app.route('/', methods=['GET'])
