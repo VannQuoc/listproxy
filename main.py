@@ -9,6 +9,7 @@ def get_proxy(web):
     response = requests.get(web)
     if response.status_code == 200:
         return response.text.strip()
+        print("get proxy thành công với web", web)
     else:
         return None
 def main():
